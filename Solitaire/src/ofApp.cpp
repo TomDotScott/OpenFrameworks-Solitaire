@@ -21,6 +21,8 @@ void ofApp::setup()
 		std::swap(m_deck[i], m_deck[randomIndex]);
 	}
 
+	DealCards();
+	
 	ofSetBackgroundColor(33, 91, 0);
 }
 
@@ -45,7 +47,8 @@ void ofApp::draw()
 		);
 
 		// Card
-		ofSetColor(255);
+		card.FaceUp() ? ofSetColor(255) : ofSetColor(153, 0, 0);
+		
 		ofDrawRectangle(
 			card.GetPosition().x + constants::outlineWidth, 
 			card.GetPosition().y + constants::outlineWidth, 
@@ -53,13 +56,16 @@ void ofApp::draw()
 			constants::cardHeight - 2 * constants::outlineWidth
 		);
 
-		// Colour
-		ofSetColor(card.GetColour());
-		ofDrawBitmapString(
-			card.GetValue(), 
-			card.GetPosition().x + constants::cardWidth / 2 - constants::outlineWidth, 
-			card.GetPosition().y + constants::cardHeight / 2 + constants::outlineWidth
-		);
+		if (card.FaceUp())
+		{
+			// Colour
+			ofSetColor(card.GetColour());
+			ofDrawBitmapString(
+				card.GetValue(),
+				card.GetPosition().x + constants::cardWidth / 2 - constants::outlineWidth,
+				card.GetPosition().y + constants::cardHeight / 2 + constants::outlineWidth
+			);
+		}
 	}
 }
 
@@ -121,6 +127,28 @@ void ofApp::windowResized(int w, int h)
 void ofApp::gotMessage(ofMessage msg)
 {
 
+}
+
+void ofApp::DealCards()
+{
+	int card = 0;
+	for(int i = 0; i < 8; ++i)
+	{
+		for (int j = 0; j < i; ++j)
+		{
+			m_deck[card].SetPosition({ 
+				static_cast<float>(i * constants::cardWidth) + i * 10,
+				static_cast<float>(constants::screenHeight) / 4.f + j * (constants::cardHeight / 4)
+			});
+
+			if(j == i - 1)
+			{
+				m_deck[card].Reveal();
+			}
+			
+			card++;
+		}
+	}
 }
 
 //--------------------------------------------------------------

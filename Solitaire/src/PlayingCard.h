@@ -39,8 +39,13 @@ public:
 
 	std::string GetValue() const;
 
+	bool FaceUp() const;
+	void Reveal();
+
 private:
 	eSuit m_suit;
 	eValue m_value;
 	ofVec2f m_position;
+
+	bool m_faceUp;
 };

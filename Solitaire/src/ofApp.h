@@ -24,6 +24,8 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+	void DealCards();
+
 private:
 	std::vector<PlayingCard> m_deck;
 };
